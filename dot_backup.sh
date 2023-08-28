@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Define an array of dotfile directories and the backup directory
-DOTFILES_DIRS=(
+# Define an array of dotfile paths and the backup directory
+DOTFILES=(
     "$HOME/.config/nvim"
     "$HOME/.vimrc"
     "$HOME/.bash_aliases"
@@ -11,6 +11,7 @@ DOTFILES_DIRS=(
     "$HOME/.themes"
     "$HOME/.local/share/fonts"
 )
+
 BACKUP_DIR="$HOME/utility/dotfiles"
 REPO_URL="https://github.com/sahilkamate03/dotfiles.git"
 
@@ -25,14 +26,14 @@ backup_dotfile() {
     echo "Backed up $file to $dest"
 }
 
-# Backup and copy dotfiles from each directory
-backup_and_copy_dotfiles() {
-    for dotfiles_dir in "${DOTFILES_DIRS[@]}"; do
-        for file in "$dotfiles_dir"/.*; do
-            if [[ -f "$file" && ! -L "$file" && ! "$file" =~ /(\.\.?)?$ ]]; then
-                backup_dotfile "$file"
-            fi
-        done
+# Backup dotfiles
+backup_dotfiles() {
+    for dotfile in "${DOTFILES[@]}"; do
+        if [ -e "$dotfile" ]; then
+            backup_dotfile "$dotfile"
+        else
+            echo "Dotfile $dotfile not found."
+        fi
     done
 }
 
@@ -48,7 +49,7 @@ clone_or_update_repo() {
 }
 
 # Main execution
-backup_and_copy_dotfiles
+backup_dotfiles
 clone_or_update_repo
 
 # Add and commit changes to the repository
