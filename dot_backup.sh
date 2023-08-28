@@ -54,6 +54,6 @@ clone_or_update_repo
 # Add and commit changes to the repository
 (cd "$DOTFILES_DIR" && git add .)
 (cd "$DOTFILES_DIR" && git commit -m "Updated dotfiles $(date +'%Y-%m-%d %H:%M:%S')")
-(cd "$DOTFILES_DIR" && git push origin master)
+(cd "$DOTFILES_DIR" && git push origin main)
 
 echo "Dotfiles backup and Git update complete!"
